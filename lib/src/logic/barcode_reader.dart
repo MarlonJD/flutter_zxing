@@ -22,7 +22,7 @@ Future<Code> zxingReadBarcodeImagePath(
   }
   image = resizeToMaxSize(image, params?.maxSize);
   return zxingReadBarcode(
-    image.getBytes(format: imglib.Format.luminance),
+    image.getBytes(),
     width: image.width,
     height: image.height,
     params: params,
@@ -42,7 +42,7 @@ Future<Code> zxingReadBarcodeImageUrl(
   }
   image = resizeToMaxSize(image, params?.maxSize);
   return zxingReadBarcode(
-    image.getBytes(format: imglib.Format.luminance),
+    image.getBytes(),
     width: image.width,
     height: image.height,
     params: params,

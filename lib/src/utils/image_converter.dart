@@ -16,7 +16,7 @@ Future<Uint8List> convertImage(CameraImage image) async {
     } else if (image.format.group == ImageFormatGroup.bgra8888) {
       img = convertBGRA8888(image);
     }
-    return img.getBytes(format: imglib.Format.luminance);
+    return img.getBytes();
   } catch (e) {
     debugPrint('>>>>>>>>>>>> ERROR: $e');
   }
@@ -25,17 +25,16 @@ Future<Uint8List> convertImage(CameraImage image) async {
 
 imglib.Image convertBGRA8888(CameraImage image) {
   return imglib.Image.fromBytes(
-    image.width,
-    image.height,
-    image.planes[0].bytes,
-    format: imglib.Format.bgra,
+    width: image.width,
+    height: image.height,
+    bytes: image.planes[0].bytes.buffer,
   );
 }
 
 // ignore: unused_element
 imglib.Image convertYUV420(CameraImage image) {
-  final imglib.Image img =
-      imglib.Image(image.width, image.height); // Create Image buffer
+  final imglib.Image img = imglib.Image(
+      width: image.width, height: image.height); // Create Image buffer
 
   final Plane plane = image.planes[0];
   const int shift = 0xFF << 24;
@@ -52,7 +51,7 @@ imglib.Image convertYUV420(CameraImage image) {
       final int newVal =
           shift | (pixelColor << 16) | (pixelColor << 8) | pixelColor;
 
-      img.data[planeOffset + x] = newVal;
+      // img.data[planeOffset + x] = newVal;
     }
   }
 
